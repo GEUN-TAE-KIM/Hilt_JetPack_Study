@@ -21,7 +21,9 @@ import kr.rmsxo.presentation.component.RMButton
 import kr.rmsxo.presentation.theme.HiltStudy1Theme
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    onNavigateToLoginScreen : ()-> Unit
+) {
     Surface {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -48,9 +50,9 @@ fun WelcomeScreen() {
                     .align(alignment = Alignment.BottomCenter)
                     .height(48.dp),
                 text = "로그인",
-                onClick = {}
+                onClick = onNavigateToLoginScreen
             )
-            
+
         }
     }
 
@@ -60,7 +62,9 @@ fun WelcomeScreen() {
 @Composable
 private fun WelcomeScreenPreview() {
     HiltStudy1Theme {
-        WelcomeScreen()
+        WelcomeScreen(
+            onNavigateToLoginScreen = {}
+        )
     }
 }
 
