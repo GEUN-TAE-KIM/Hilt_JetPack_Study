@@ -2,10 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
+
+        <activity android:name=".login.LoginActivity"/>
+        <activity android:name=".MainActivity"/>
+
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:label="@string/title_activity_login"
             android:theme="@style/Theme.HiltStudy1" >
 
             <intent-filter>
@@ -13,7 +16,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
+
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package kr.rmsxo.presentation.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,11 +14,49 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kr.rmsxo.presentation.component.RMButton
 import kr.rmsxo.presentation.component.RMTextField
 import kr.rmsxo.presentation.theme.HiltStudy1Theme
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
+
+@Composable
+fun SignUpScreen(
+    viewModel: SignUpViewModel = hiltViewModel(),
+    onNavigateToLoginScreen: () -> Unit
+) {
+    val state = viewModel.collectAsState().value
+    val context = LocalContext.current
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is SignUpSideEffect.Toast -> Toast.makeText(
+                context,
+                sideEffect.message,
+                Toast.LENGTH_LONG
+            ).show()
+
+            SignUpSideEffect.NavigateToLoginScreen -> onNavigateToLoginScreen
+        }
+    }
+
+    SignUpScreen(
+        id = state.id,
+        userName = state.userName,
+        password1 = state.passWord,
+        password2 = state.repeatPassWord,
+        onIdChange = viewModel::onIdChange,
+        onUserNameChange = viewModel::onUserNameChange,
+        onPassword1Change = viewModel::onPassWordChange,
+        onPassword2Change = viewModel::onRepeatPassWordChange,
+        onSignUpClick = viewModel::onSignUpClick
+    )
+}
 
 @Composable
 fun SignUpScreen(
@@ -55,12 +94,12 @@ fun SignUpScreen(
                     .fillMaxHeight()
             ) {
                 Text(
-                    modifier = Modifier.padding(top = 36.dp),
+                    modifier = Modifier.padding(top = 16.dp),
                     text = "Create an Account",
                     style = MaterialTheme.typography.headlineMedium
                 )
                 Text(
-                    modifier = Modifier.padding(top = 36.dp),
+                    modifier = Modifier.padding(top = 16.dp),
                     text = "Id",
                     style = MaterialTheme.typography.labelLarge
                 )
@@ -72,7 +111,7 @@ fun SignUpScreen(
                     onValueChange = onIdChange,
                 )
                 Text(
-                    modifier = Modifier.padding(top = 36.dp),
+                    modifier = Modifier.padding(top = 16.dp),
                     text = "UserName",
                     style = MaterialTheme.typography.labelLarge
                 )
@@ -84,7 +123,7 @@ fun SignUpScreen(
                     onValueChange = onUserNameChange,
                 )
                 Text(
-                    modifier = Modifier.padding(top = 36.dp),
+                    modifier = Modifier.padding(top = 16.dp),
                     text = "Password",
                     style = MaterialTheme.typography.labelLarge
                 )
@@ -93,10 +132,11 @@ fun SignUpScreen(
                         .padding(top = 8.dp)
                         .fillMaxWidth(),
                     value = password1,
+                    visualTransformation = PasswordVisualTransformation(),
                     onValueChange = onPassword1Change,
                 )
                 Text(
-                    modifier = Modifier.padding(top = 36.dp),
+                    modifier = Modifier.padding(top = 16.dp),
                     text = "Password",
                     style = MaterialTheme.typography.labelLarge
                 )
@@ -105,6 +145,7 @@ fun SignUpScreen(
                         .padding(top = 8.dp)
                         .fillMaxWidth(),
                     value = password2,
+                    visualTransformation = PasswordVisualTransformation(),
                     onValueChange = onPassword2Change,
                 )
                 RMButton(

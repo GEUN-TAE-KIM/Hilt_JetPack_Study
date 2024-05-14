@@ -1,5 +1,6 @@
 package kr.rmsxo.presentation.login
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kr.rmsxo.presentation.MainActivity
 import kr.rmsxo.presentation.component.RMButton
 import kr.rmsxo.presentation.component.RMTextField
 import kr.rmsxo.presentation.theme.HiltStudy1Theme
@@ -29,14 +31,29 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    onNavigateToSignUpScreen: () -> Unit,
 ) {
     val state = viewModel.collectAsState().value
     val context = LocalContext.current
 
+    // 서버에서 실제 로그인 시도 할 시
     viewModel.collectSideEffect { sideEffect ->
-        when(sideEffect) {
-            is LoginSideEffect.Toast -> Toast.makeText(context, sideEffect.message, Toast.LENGTH_LONG).show()
+        when (sideEffect) {
+            is LoginSideEffect.Toast -> Toast.makeText(
+                context,
+                sideEffect.message,
+                Toast.LENGTH_LONG
+            ).show()
+            LoginSideEffect.NavigateToMainActivity -> {
+                context.startActivity(
+                    Intent(
+                        context, MainActivity::class.java
+                    ).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                )
+            }
         }
     }
 
@@ -45,7 +62,7 @@ fun LoginScreen(
         password = state.password,
         onIdChange = viewModel::onIdChange,
         onPasswordChange = viewModel::onPasswordChange,
-        onNavigateToSignUpScreen = {},
+        onNavigateToSignUpScreen = onNavigateToSignUpScreen,
         onLoginClick = viewModel::onLoginClick
     )
 }
@@ -60,6 +77,9 @@ private fun LoginScreen(
     onNavigateToSignUpScreen: () -> Unit,
     onLoginClick: () -> Unit,
 ) {
+
+    val context = LocalContext.current
+
     Surface {
         Column(
             modifier = Modifier,
@@ -120,7 +140,18 @@ private fun LoginScreen(
                         .padding(top = 24.dp)
                         .fillMaxWidth(),
                     text = "로그인",
-                    onClick = onLoginClick
+                    // onClick = onLoginClick
+                    onClick = {
+
+                        // 바로 그냥 화면 천이
+                        context.startActivity(
+                            Intent(
+                                context, MainActivity::class.java
+                            ).apply {
+                                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            }
+                        )
+                    }
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Row(
