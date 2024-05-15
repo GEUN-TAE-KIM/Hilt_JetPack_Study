@@ -77,4 +77,8 @@ dependencies {
     implementation("org.orbit-mvi:orbit-viewmodel:7.1.0")
     implementation("org.orbit-mvi:orbit-compose:7.1.0")
 
+    //coil
+    implementation("io.coil-kt:coil:2.2.2")
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
 }

@@ -9,11 +9,13 @@ import kr.rmsxo.data.usecase.GetTokenUseCaseImpl
 import kr.rmsxo.data.usecase.LoginUseCaseImpl
 import kr.rmsxo.data.usecase.SetTokenUseCaseImpl
 import kr.rmsxo.data.usecase.SignUpUseCaseImpl
+import kr.rmsxo.data.usecase.main.setting.GetMyUserUseCaseImpl
 import kr.rmsxo.domain.usecase.login.ClearTokenUseCase
 import kr.rmsxo.domain.usecase.login.GetTokenUseCase
 import kr.rmsxo.domain.usecase.login.LoginUseCase
 import kr.rmsxo.domain.usecase.login.SetTokenUseCase
 import kr.rmsxo.domain.usecase.login.SignUpUseCase
+import kr.rmsxo.domain.usecase.main.setting.GetMyUserUseCase
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,4 +35,8 @@ abstract class UserModule {
 
     @Binds
     abstract fun bindClearTokenUseCase(uc: ClearTokenUseCaseImpl): ClearTokenUseCase
+
+    @Binds
+    abstract fun bindGetMyUserUseCase(uc: GetMyUserUseCaseImpl): GetMyUserUseCase
+
 }

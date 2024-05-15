@@ -4,7 +4,7 @@
     <application>
 
         <activity android:name=".login.LoginActivity"/>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".main.MainActivity"/>
 
         <activity
             android:name=".SplashActivity"
@@ -18,6 +18,9 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".main.writing.WritingActivity"
+            android:windowSoftInputMode="adjustResize"
+            />
 
     </application>
 

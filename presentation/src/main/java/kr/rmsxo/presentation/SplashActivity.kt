@@ -2,13 +2,13 @@ package kr.rmsxo.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.rmsxo.domain.usecase.login.GetTokenUseCase
 import kr.rmsxo.presentation.login.LoginActivity
+import kr.rmsxo.presentation.main.MainActivity
 import javax.inject.Inject
 
 @AndroidEntryPoint

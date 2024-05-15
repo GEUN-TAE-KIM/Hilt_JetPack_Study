@@ -6,7 +6,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import kr.rmsxo.data.retrofit.RMInterceptor
 import kr.rmsxo.data.retrofit.UserService
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -19,9 +21,10 @@ val RM_HOST = "http://RM"
 class RetrofitModule {
 
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(interceptor: RMInterceptor): OkHttpClient {
         return OkHttpClient
             .Builder()
+            .addInterceptor(interceptor)
             .build()
     }
 

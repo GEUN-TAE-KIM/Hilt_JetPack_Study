@@ -22,7 +22,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import kr.rmsxo.presentation.MainActivity
+import kr.rmsxo.presentation.main.MainActivity
 import kr.rmsxo.presentation.component.RMButton
 import kr.rmsxo.presentation.component.RMTextField
 import kr.rmsxo.presentation.theme.HiltStudy1Theme
