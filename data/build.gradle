@@ -43,7 +43,22 @@ dependencies {
 
     implementation project(':domain')
 
+    //Serialization
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
+
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+   // implementation "com.squareup.retrofit2:converter-serialization:2.9.0"
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+    implementation platform("com.squareup.okhttp3:okhttp-bom:4.9.0")
+    implementation "com.squareup.okhttp3:okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor"
+
     //Dagger-Hilt
     implementation "com.google.dagger:hilt-android:2.48.1"
     kapt "com.google.dagger:hilt-compiler:2.48.1"
+
+    //dataStore
+    implementation "androidx.datastore:datastore-android:1.1.1"
+    implementation "androidx.datastore:datastore-preferences-android:1.1.1"
 }
