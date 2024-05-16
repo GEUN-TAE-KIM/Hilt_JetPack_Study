@@ -1,11 +1,14 @@
 package kr.rmsxo.presentation.main.setting
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kr.rmsxo.domain.model.User
 import kr.rmsxo.domain.usecase.login.ClearTokenUseCase
 import kr.rmsxo.domain.usecase.main.setting.GetMyUserUseCase
+import kr.rmsxo.domain.usecase.main.setting.SetProfileImageUseCase
+import kr.rmsxo.domain.usecase.main.setting.SetMyUserUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -17,7 +20,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingViewModel @Inject constructor(
     private val clearTokenUseCase: ClearTokenUseCase,
-    private val getMyUserUseCase: GetMyUserUseCase
+    private val getMyUserUseCase: GetMyUserUseCase,
+    private val setMyUserUseCase: SetMyUserUseCase,
+    private val setProfileImageUseCase: SetProfileImageUseCase,
 ) : ViewModel(),
     ContainerHost<SettingState, SettingSideEffect> {
 
@@ -36,7 +41,7 @@ class SettingViewModel @Inject constructor(
     }
 
     private fun load() = intent {
-        val user : User = getMyUserUseCase().getOrThrow()
+        val user: User = getMyUserUseCase().getOrThrow()
         reduce {
             state.copy(
                 profileImageUrl = user.profileImageUrl,
@@ -50,6 +55,21 @@ class SettingViewModel @Inject constructor(
         postSideEffect(SettingSideEffect.NavigateToLoginActivity)
     }
 
+    fun onUserNameChange(userName: String) = intent {
+        setMyUserUseCase(
+            username = userName,
+            profileImageUrl = state.profileImageUrl
+        ).getOrThrow()
+        load()
+    }
+
+    fun onImageChange(contentUri: Uri?) = intent {
+        setProfileImageUseCase(
+            contentUri = contentUri.toString()
+        ).getOrThrow()
+        load()
+    }
+
 
 }
 
@@ -60,5 +80,5 @@ data class SettingState(
 
 sealed interface SettingSideEffect {
     class Toast(val message: String) : SettingSideEffect
-    object NavigateToLoginActivity: SettingSideEffect
+    object NavigateToLoginActivity : SettingSideEffect
 }

@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import kr.rmsxo.data.retrofit.FileService
 import kr.rmsxo.data.retrofit.RMInterceptor
 import kr.rmsxo.data.retrofit.UserService
 import okhttp3.Interceptor
@@ -45,6 +46,10 @@ class RetrofitModule {
     @Provides
     fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
 
+    @Provides
+    fun provideFileService(retrofit: Retrofit): FileService {
+        return retrofit.create(FileService::class.java)
     }
 }
