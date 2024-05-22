@@ -16,14 +16,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kr.rmsxo.presentation.R
 import kr.rmsxo.presentation.main.board.BoardScreen
+import kr.rmsxo.presentation.main.board.BoardViewModel
 import kr.rmsxo.presentation.main.setting.SettingScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainNavHost() {
-
+fun MainNavHost(boardViewModel: BoardViewModel) {
     val navController = rememberNavController()
-
     Surface {
         Scaffold(
             topBar = {
@@ -38,10 +37,10 @@ fun MainNavHost() {
                 NavHost(
                     modifier = Modifier.padding(padding),
                     navController = navController,
-                    startDestination = MainRoute.BOARD.route,
+                    startDestination = MainRoute.BOARD.route
                 ) {
                     composable(route = MainRoute.BOARD.route) {
-                        BoardScreen()
+                        BoardScreen(boardViewModel)
                     }
                     composable(route = MainRoute.SETTING.route) {
                         SettingScreen()
@@ -49,7 +48,9 @@ fun MainNavHost() {
                 }
             },
             bottomBar = {
-                MainBottomBar(navController = navController)
+                MainBottomBar(
+                    navController = navController
+                )
             }
         )
     }
