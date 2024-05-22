@@ -1,21 +1,51 @@
 package kr.rmsxo.presentation.main
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import dagger.hilt.android.AndroidEntryPoint
+import kr.rmsxo.domain.model.ACTION_POSTED
+import kr.rmsxo.presentation.main.board.BoardViewModel
 import kr.rmsxo.presentation.theme.HiltStudy1Theme
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private val boardViewModel: BoardViewModel by viewModels()
+
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == ACTION_POSTED) {
+                boardViewModel.load()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             HiltStudy1Theme {
-                MainNavHost()
+                MainNavHost(boardViewModel)
             }
         }
+
+        ContextCompat.registerReceiver(
+            this,
+            receiver,
+            IntentFilter(ACTION_POSTED),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
+    }
+
 }
